@@ -1,3 +1,3 @@
 module FuckingShellScripts
-  VERSION = "1.0"
+  VERSION = "0.99"
 end
