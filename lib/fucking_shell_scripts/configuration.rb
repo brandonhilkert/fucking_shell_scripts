@@ -18,7 +18,11 @@ module FuckingShellScripts
     private
 
     def default_options
-      YAML.load(File.read('servers/defaults.yml'))
+      begin
+        YAML.load(File.read('servers/defaults.yml'))
+      rescue Errno::ENOENT
+        {}
+      end
     end
 
     def server_options
