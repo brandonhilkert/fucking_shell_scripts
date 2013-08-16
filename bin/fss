@@ -1,0 +1,45 @@
+#!/usr/bin/env ruby
+
+require 'optparse'
+require_relative '../lib/fucking_shell_scripts'
+
+options = {}
+
+OptionParser.new do |opts|
+  opts.banner = "Usage: fss [options] type"
+
+  opts.on('--build', 'Only build the server' ) do |build|
+    options[:build] = true
+  end
+
+  opts.on('--configure', 'Only configure the server' ) do |configure|
+    options[:configure] = true
+  end
+
+  opts.on('--instance-id ID', 'An exiting AWS instance ID' ) do |id|
+    options[:instance_id] = id
+  end
+
+  opts.on('-h', '--help', 'Display this screen' ) do
+    puts opts
+    exit
+  end
+
+  opts.on('-v', '--version', 'Show version' ) do
+    puts FuckingShellScripts::Version
+  end
+end.parse!
+
+options.merge!(type: ARGV.first)
+
+cli = FuckingShellScripts::CLI.new(options)
+
+if options[:build]
+  cli.build
+
+elsif options[:configure]
+  cli.configure
+
+else
+  cli.bootstrap
+end

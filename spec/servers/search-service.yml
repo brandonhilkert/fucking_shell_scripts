@@ -1,0 +1,12 @@
+name: search-service
+security_groups: search-service
+size: c1.medium
+image: ami-90374bf9
+
+scripts:
+  - scripts/apt.sh
+  - scripts/env.sh
+  - scripts/git.sh
+  - scripts/ruby.sh
+  - scripts/rubygems.sh
+  - scripts/redis.sh
