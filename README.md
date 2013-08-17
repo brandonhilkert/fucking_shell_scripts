@@ -2,8 +2,7 @@
 
 The easiest, most common sense server configuration management tool...because you just use fucking shell scripts.
 
-Completely confused by Chef?  Blowing your brains out over Ansible?  Wanna just use **fucking shell scripts** to configure a server? Read
-        on!
+Completely confused by Chef?  Blowing your brains out over Ansible?  Wanna just use **fucking shell scripts** to configure a server? Read on!
 
 # Features
 
@@ -15,6 +14,7 @@ Completely confused by Chef?  Blowing your brains out over Ansible?  Wanna just 
 ```Shell
 gem install fucking_shell_scripts
 ```
+
 
 ### Step 1: Create a project directory
 
@@ -49,9 +49,10 @@ An example folder structure:
 │   ├── search_service_code.sh
 │   └── search_service_env.sh
 └── servers
-│   ├── defaults.yml
+    ├── defaults.yml
     └── search-service.yml
 ```
+
 
 ### Step 2: Create a server definition file
 
@@ -81,20 +82,20 @@ image_id: ami-90374bf9
 ############################################
 
 files:
-- files/keys/deploy_key
+  - files/keys/deploy_key
 
 ###########################################
 # Scripts needed to build the search server
 ###########################################
 
 scripts:
-- scripts/apt.sh
-- scripts/search_service_env.sh
-- scripts/git.sh
-- scripts/ruby2.sh
-- scripts/rubygems.sh
-- scripts/redis.sh
-- scripts/deploy_key.sh
+  - scripts/apt.sh
+  - scripts/search_service_env.sh
+  - scripts/git.sh
+  - scripts/ruby2.sh
+  - scripts/rubygems.sh
+  - scripts/redis.sh
+  - scripts/deploy_key.sh
 ```
 
 `servers/defaults.yml`has the same structure and keys a server definition file, **except**, you cannot define scripts or files.
@@ -167,7 +168,7 @@ _Note: `--instance-id`is required when using the `--configure` option_
 rm -rf ~/old_config_management/chef
 ```
 
-**HOLY SHIT! THAT WAS EASY.**# FuckingShellScripts
+**HOLY SHIT! THAT WAS EASY.**
 
 ## Contributing
 
