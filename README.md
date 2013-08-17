@@ -1,57 +1,173 @@
-# FuckingShellScripts
+# Fucking Shell Scripts
 
-The easiest, most common sense configuration management tool... because you just use fucking shell scripts.
+The easiest, most common sense server configuration management tool...because you just use fucking shell scripts.
 
-## Installation
+Completely confused by Chef?  Blowing your brains out over Ansible?  Wanna just use **fucking shell scripts** to configure a server? Read
+        on!
 
-    $ gem install fucking_shell_scripts
+# Features
 
-## Development
+*   Wraps up the fog gem, so it can be used on any cloud service, including AWS, rackspace, etc.
+*   We've intentionally designed this tool to be insanely easy to use
 
-During development of a script, use vagrant:
+### Step 0: Install the gem
 
-    vagrant up
-    cd /vagrant
+```Shell
+gem install fucking_shell_scripts
+```
 
-`cd /vagrant` will put you in the root folder of the project so that you can run a script such as `./search-service.sh`.
+### Step 1: Create a project directory
 
-## Servers
+```Shell
+mkdir config_management
+```
 
-### Defaults
+Folder structure:
 
-Server defaults are defined by creating the following file:
+*   `/servers` _(required)_ - yaml server definitions _(see example below)_
 
-`./servers/defaults.yml`
+*   `/scripts` _(required)_ - the shell scripts that will configure your servers _(see example below)_
 
-```yaml
-name: ppd instance
+*   `/files` _(optional)_ - files to be transferred to servers _(nginx.conf, ssh keys, database.yml, etc.)_
+
+An example folder structure:
+
+```Shell
+./config_management
+├── files
+│   ├── keys
+│   │   └── deploy_key
+│   └── rails_config
+│       └── database.yml
+├── scripts
+│   ├── apt.sh
+│   ├── deploy_key.sh
+│   ├── git.sh
+│   ├── redis.sh
+│   ├── ruby2.sh
+│   ├── rubygems.sh
+│   ├── search_service_code.sh
+│   └── search_service_env.sh
+└── servers
+│   ├── defaults.yml
+    └── search-service.yml
+```
+
+### Step 2: Create a server definition file
+
+The server definition file defines how to build a type of server. Server definitions override settings in `defaults.yml`.
+
+```YAML
+# servers/search-server.yml
+##################################################
+# This file defines how to build our search server
+##################################################
+
 security_groups: pd-app-server
 instance_type: c1.xlarge
 image_id: ami-e76ac58e
 availability_zone: us-east-1d
 region: us-east-1
 key_name: pd-app-server
-private_key_path: /Users/bhilkert/.ssh/pd-app-server
-```
 
-To define a server, create a yaml file in the `./servers` directory with the following format:
-
-`./servers/search-service.yml`
-
-```yaml
-name: search-service
-security_groups: search-service
+name: search-server
+private_key_path: /Users/yourname/.ssh/pd-app-server
+security_groups: search-service  # override the security_groups defined in defaults.yml
 instance_type: c1.medium
 image_id: ami-90374bf9
 
+############################################
+# Files necessary to build the search server
+############################################
+
+files:
+- files/keys/deploy_key
+
+###########################################
+# Scripts needed to build the search server
+###########################################
+
 scripts:
-  - scripts/apt.sh
-  - scripts/env.sh
-  - scripts/git.sh
-  - scripts/ruby.sh
-  - scripts/rubygems.sh
-  - scripts/redis.sh
+- scripts/apt.sh
+- scripts/search_service_env.sh
+- scripts/git.sh
+- scripts/ruby2.sh
+- scripts/rubygems.sh
+- scripts/redis.sh
+- scripts/deploy_key.sh
 ```
+
+`servers/defaults.yml`has the same structure and keys a server definition file, **except**, you cannot define scripts or files.
+
+```YAML
+# servers/defaults.yml
+################################
+# This file defines our defaults
+################################
+
+security_groups: simple-group
+instance_type: c1.medium
+image_id: ami-e76ac58e
+availability_zone: us-east-1d
+region: us-east-1
+key_name: global-key
+```
+
+### Step 3: Add shell scripts that configure the server
+
+Seriously...just write shell scripts.
+
+Want to install Ruby 2? Here's an example:
+
+```Shell
+#!/bin/sh
+#
+# scripts/ruby2.sh
+#
+sudo apt-get -y install build-essential zlib1g-dev libssl-dev libreadline6-dev libyaml-dev
+cd /tmp
+wget http://ftp.ruby-lang.org/pub/ruby/2.0/ruby-2.0.0-p247.tar.gz
+tar -xzf ruby-2.0.0-p247.tar.gz
+cd ruby-2.0.0-p247
+./configure --prefix=/usr/local
+make
+sudo make install
+rm -rf /tmp/ruby*
+```
+
+### Step 4: Build/configure your server
+
+```Shell
+fss search-service
+```
+
+This command does 2 things:
+
+1.  Builds the new server
+2.  Runs the scripts configuration
+
+**To build only:**
+
+```Shell
+fss --build search-service
+```
+
+**To configure only:**
+
+```Shell
+fss --instance-id i-9ad6d7af --configure search-service
+```
+
+_Note: `--instance-id`is required when using the `--configure` option_
+
+
+### Step 5: Remove your chef repo and all its contents.
+
+```Shell
+rm -rf ~/old_config_management/chef
+```
+
+**HOLY SHIT! THAT WAS EASY.**# FuckingShellScripts
 
 ## Contributing
 
