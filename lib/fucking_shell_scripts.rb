@@ -1,10 +1,5 @@
 require "fucking_shell_scripts/version"
 
-begin
-  require 'pry'
-rescue LoadError
-end
-
 require_relative 'fucking_shell_scripts/cli'
 require_relative 'fucking_shell_scripts/configuration'
 require_relative 'fucking_shell_scripts/connection'
