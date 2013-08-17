@@ -4,16 +4,6 @@ The easiest, most common sense configuration management tool... because you just
 
 ## Installation
 
-Add this line to your application's Gemfile:
-
-    gem 'fucking_shell_scripts'
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
     $ gem install fucking_shell_scripts
 
 ## Development
