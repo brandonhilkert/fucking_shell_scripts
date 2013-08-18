@@ -26,7 +26,8 @@ OptionParser.new do |opts|
   end
 
   opts.on('-v', '--version', 'Show version' ) do
-    puts FuckingShellScripts::Version
+    puts FuckingShellScripts::VERSION
+    exit
   end
 end.parse!
 

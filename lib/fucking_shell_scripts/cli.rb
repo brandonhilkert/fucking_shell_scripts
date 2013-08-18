@@ -2,7 +2,6 @@ module FuckingShellScripts
   class CLI
     def initialize(opts = {})
       @opts = opts
-      @connection = FuckingShellScripts::Connection.new(options).connection
     end
 
     def bootstrap
@@ -20,7 +19,11 @@ module FuckingShellScripts
     private
 
     def server
-      FuckingShellScripts::Server.new(@connection, options)
+      FuckingShellScripts::Server.new(connection, options)
+    end
+
+    def connection
+      FuckingShellScripts::Connection.new(options).connection
     end
 
     def options
