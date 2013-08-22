@@ -2,25 +2,36 @@ require 'fog'
 
 module FuckingShellScripts
   class Connection
-    MissingAWSCredentials = Class.new(StandardError)
+    MissingCloudCredentials = Class.new(StandardError)
 
     def initialize(opts)
       @opts = opts
-
-      if ENV["AWS_ACCESS_KEY"].nil? || ENV["AWS_SECRET_ACCESS_KEY"].nil?
-        raise FuckingShellScripts::Connection::MissingAWSCredentials, "Make sure AWS_ACCESS_KEY and AWS_SECRET_ACCESS_KEY are environmental variables with your credentials"
-      end
     end
 
     def connection
       @connection ||= begin
-        Fog::Compute.new(
-          provider: "AWS",
-          aws_access_key_id: ENV["AWS_ACCESS_KEY"],
-          aws_secret_access_key: ENV["AWS_SECRET_ACCESS_KEY"],
-          region: @opts.fetch(:region)
-        )
+                        Fog::Compute.new(parse_cloud_options(@opts.fetch(:cloud)))
+                      end
+    end
+
+    private
+
+    def parse_cloud_options(cloud_opts)
+      vars_not_set = []
+      cloud_opts.keys.each do |k|
+        if cloud_opts[k].index("ENV[") == 0
+          env_var = cloud_opts[k].match(/\[\w+\]/).to_s.gsub(/(\[|\])/,'')
+          vars_not_set << env_var if ENV[env_var].nil?
+          cloud_opts[k] =  ENV[env_var]
+        end
       end
+
+      if !vars_not_set.empty?
+        msg = "The following environment variables need to be set: #{vars_not_set.join(', ')}"
+        raise FuckingShellScripts::Connection::MissingCloudCredentials, msg
+      end
+
+      cloud_opts
     end
   end
 end
