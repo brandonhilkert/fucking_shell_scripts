@@ -110,9 +110,25 @@ security_groups: simple-group
 instance_type: c1.medium
 image_id: ami-e76ac58e
 availability_zone: us-east-1d
-region: us-east-1
 key_name: global-key
+cloud:
+  provider: aws
+  aws_access_key_id: ENV[AWS_ACCESS_KEY],
+  aws_secret_access_key: ENV[AWS_SECRET_ACCESS_KEY],
+  region: us-east-1
+  
+  
 ```
+
+#### Cloud options
+
+Anything passed in the 'cloud' key will be directly passed to
+`Fog::Compute.new`.  See [the fog website](http://fog.io/compute) for more info.
+
+FSS will consider any values that look like "ENV[VAR_NAME]" to be
+environment variables, and will attempt to look up that environment
+variable.  If FSS does not find that variable, an exception will be
+raised.
 
 ### Step 3: Add shell scripts that configure the server
 
