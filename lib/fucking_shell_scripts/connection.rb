@@ -9,9 +9,7 @@ module FuckingShellScripts
     end
 
     def connection
-      @connection ||= begin
-                        Fog::Compute.new(parse_cloud_options(@opts.fetch(:cloud)))
-                      end
+      @connection ||= Fog::Compute.new(parse_cloud_options(@opts.fetch(:cloud)))
     end
 
     private
@@ -33,5 +31,6 @@ module FuckingShellScripts
 
       cloud_opts
     end
+
   end
 end
