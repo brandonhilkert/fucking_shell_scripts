@@ -108,8 +108,8 @@ availability_zone: us-east-1d
 key_name: global-key
 cloud:
   provider: AWS
-  aws_access_key_id: ENV[AWS_ACCESS_KEY]
-  aws_secret_access_key: ENV[AWS_SECRET_ACCESS_KEY]
+  aws_access_key_id: <=% ENV[AWS_ACCESS_KEY] %>
+  aws_secret_access_key: <%= ENV[AWS_SECRET_ACCESS_KEY] %>
   region: us-east-1
 
 ```

@@ -1,5 +1,7 @@
 module FuckingShellScripts
   class CLI
+    MissingCloudSettings = Class.new(StandardError)
+
     def initialize(opts = {})
       @opts = opts
     end
@@ -23,7 +25,7 @@ module FuckingShellScripts
     end
 
     def connection
-      @connection ||= FuckingShellScripts::Connection.new(options).connection
+      FuckingShellScripts::Connection.new(options.fetch(:cloud)).connection
     end
 
     def options
