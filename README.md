@@ -58,8 +58,6 @@ An example folder structure:
 
 The server definition file defines how to build a type of server. Server definitions override settings in `defaults.yml`.
 
-
-
 ```YAML
 # servers/search-server.yml
 ##################################################
