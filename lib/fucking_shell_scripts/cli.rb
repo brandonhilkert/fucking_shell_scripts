@@ -19,11 +19,11 @@ module FuckingShellScripts
     private
 
     def server
-      FuckingShellScripts::Server.new(connection, options)
+      @server ||= FuckingShellScripts::Server.new(connection, options)
     end
 
     def connection
-      FuckingShellScripts::Connection.new(options).connection
+      @connection ||= FuckingShellScripts::Connection.new(options).connection
     end
 
     def options

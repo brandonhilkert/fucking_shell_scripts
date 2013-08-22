@@ -16,7 +16,7 @@ module FuckingShellScripts
       connection_obj = double('obj connection', connection: connection)
       FuckingShellScripts::Connection.stub(:new).and_return(connection_obj)
       FuckingShellScripts::Configuration.stub(:new).and_return(config)
-      FuckingShellScripts::Server.should_receive(:new).with(connection, options)
+      FuckingShellScripts::Server.should_receive(:new).with(connection, options).and_return(server)
       FuckingShellScripts::CLI.new.bootstrap
     end
 
