@@ -2,7 +2,7 @@
 
 The easiest, most common sense server configuration management tool...because you just use fucking shell scripts.
 
-Completely confused by Chef?  Blowing your brains out over Ansible?  Wanna just use **fucking shell scripts** to configure a server? Read on!
+Completely confused by Chef?  Blowing your brains out over Ansible?  Lost control of your puppets?  Wanna just use **fucking shell scripts** to configure a server? Read on!
 
 # Features
 
