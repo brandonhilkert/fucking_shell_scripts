@@ -50,7 +50,7 @@ An example folder structure:
 │   └── search_service_env.sh
 └── servers
     ├── defaults.yml
-    └── search-service.yml
+    └── search-server.yml
 ```
 
 
@@ -149,7 +149,7 @@ rm -rf /tmp/ruby*
 ### Step 4: Build/configure your server
 
 ```Shell
-fss search-service
+fss search-server
 ```
 
 This command does 2 things:
@@ -160,16 +160,16 @@ This command does 2 things:
 **To build only:**
 
 ```Shell
-fss --build search-service
+fss --build search-server
 ```
 
 **To configure only:**
 
 ```Shell
-fss --instance-id i-9ad6d7af --configure search-service
+fss --instance-id i-9ad6d7af --configure search-server
 ```
 
-_Note: `--instance-id`is required when using the `--configure` option_
+_Note: `--instance-id` is required when using the `--configure` option_
 
 
 ### Step 5: Remove your chef repo and all its contents.
