@@ -20,13 +20,13 @@ class Fog::SSH::Real
 
               channel.on_data do |ch, data|
                 result.stdout << data
-                puts data
+                print data
               end
 
               channel.on_extended_data do |ch, type, data|
                 next unless type == 1
                 result.stderr << data
-                puts data
+                print data
               end
 
               channel.on_request('exit-status') do |ch, data|
