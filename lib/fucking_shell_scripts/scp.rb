@@ -17,7 +17,7 @@ module FuckingShellScripts
     private
 
     def create_local_archive
-      includes = @opts.fetch(:files) + @opts.fetch(:scripts)
+      includes = @opts.fetch(:files){ [] } + @opts.fetch(:scripts)
       `tar -czf #{FILENAME} #{includes.join(" ")}`
     end
 
