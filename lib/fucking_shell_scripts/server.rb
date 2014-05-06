@@ -21,6 +21,7 @@ module FuckingShellScripts
         key_name: options.fetch(:key_name),
         tags: { "Name" => name },
         groups: options.fetch(:security_groups),
+        ssh_ip_address: options.fetch(:ssh_ip_address),
       }
 
       if options.has_key? :private_key_path
@@ -73,6 +74,7 @@ module FuckingShellScripts
       raise FuckingShellScripts::Server::MissingInstanceID , "Please specify the instance ID using the --instance-id option." if instance_id.nil?
       @server = connection.servers.get(instance_id)
       @server.private_key_path = options.fetch(:private_key_path)
+      @server.ssh_ip_address = options.fetch(:ssh_ip_address)
       @server
     end
 

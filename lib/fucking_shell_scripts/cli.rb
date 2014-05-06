@@ -30,6 +30,16 @@ module FuckingShellScripts
 
     def options
       @options ||= FuckingShellScripts::Configuration.new(@opts).options
+
+      if @options.has_key? :ssh_ip_address
+        # pass
+      elsif @options.has_key? :vpn and @options.fetch(:vpn)
+        @options[:ssh_ip_address] = Proc.new {|server| server.private_ip_address }
+      else
+        @options[:ssh_ip_address] = Proc.new {|server| server.public_ip_address }
+      end
+
+      @options
     end
   end
 end
