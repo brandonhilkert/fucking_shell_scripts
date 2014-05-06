@@ -29,6 +29,12 @@ module FuckingShellScripts
         build_options[:key_name] = options.fetch(:key_name)
       end
 
+      [:vpc_id, :subnet_id].each do |key|
+        if options.has_key? key
+          build_options[key] = options.fetch(key)
+        end
+      end
+
       @server = connection.servers.create(build_options)
 
       print "Creating #{options.fetch(:size)} from #{options.fetch(:image)}"
