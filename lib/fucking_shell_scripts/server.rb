@@ -15,14 +15,22 @@ module FuckingShellScripts
     end
 
     def build
-      @server = connection.servers.create(
+      build_options = {
         image_id: options.fetch(:image),
         flavor_id: options.fetch(:size),
         key_name: options.fetch(:key_name),
         tags: { "Name" => name },
         groups: options.fetch(:security_groups),
-        private_key_path: options.fetch(:private_key_path)
-      )
+      }
+
+      if options.has_key? :private_key_path
+        build_options[:private_key_path] = options.fetch(:private_key_path)
+      elsif options.has_key? :key_name
+        build_options[:key_name] = options.fetch(:key_name)
+      end
+
+      @server = connection.servers.create(build_options)
+
       print "Creating #{options.fetch(:size)} from #{options.fetch(:image)}"
 
       server.wait_for do
