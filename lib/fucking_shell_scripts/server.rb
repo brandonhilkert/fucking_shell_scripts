@@ -24,6 +24,8 @@ module FuckingShellScripts
         ssh_ip_address: options.fetch(:ssh_ip_address),
       }
 
+      build_options[:username] = options.fetch(:ssh_username) if options.has_key? :ssh_username
+
       if options.has_key? :private_key_path
         build_options[:private_key_path] = options.fetch(:private_key_path)
       elsif options.has_key? :key_name
@@ -75,6 +77,7 @@ module FuckingShellScripts
       @server = connection.servers.get(instance_id)
       @server.private_key_path = options.fetch(:private_key_path)
       @server.ssh_ip_address = options.fetch(:ssh_ip_address)
+      @server.username = options.fetch(:ssh_username) if options.has_key? :ssh_username
       @server
     end
 
