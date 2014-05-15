@@ -15,14 +15,36 @@ module FuckingShellScripts
     end
 
     def build
-      @server = connection.servers.create(
+      build_options = {
         image_id: options.fetch(:image),
         flavor_id: options.fetch(:size),
         key_name: options.fetch(:key_name),
         tags: { "Name" => name },
-        groups: options.fetch(:security_groups),
-        private_key_path: options.fetch(:private_key_path)
-      )
+        ssh_ip_address: options.fetch(:ssh_ip_address),
+      }
+
+      build_options[:username] = options.fetch(:ssh_username) if options.has_key? :ssh_username
+
+      if options.has_key? :private_key_path
+        build_options[:private_key_path] = options.fetch(:private_key_path)
+      elsif options.has_key? :key_name
+        build_options[:key_name] = options.fetch(:key_name)
+      end
+
+      if options.has_key? :security_group_ids
+        build_options[:security_group_ids] = options.fetch(:security_group_ids)
+      else
+        build_options[:groups] = options.fetch(:security_groups)
+      end
+
+      [:vpc_id, :subnet_id].each do |key|
+        if options.has_key? key
+          build_options[key] = options.fetch(key)
+        end
+      end
+
+      @server = connection.servers.create(build_options)
+
       print "Creating #{options.fetch(:size)} from #{options.fetch(:image)}"
 
       server.wait_for do
@@ -59,6 +81,8 @@ module FuckingShellScripts
       raise FuckingShellScripts::Server::MissingInstanceID , "Please specify the instance ID using the --instance-id option." if instance_id.nil?
       @server = connection.servers.get(instance_id)
       @server.private_key_path = options.fetch(:private_key_path)
+      @server.ssh_ip_address = options.fetch(:ssh_ip_address)
+      @server.username = options.fetch(:ssh_username) if options.has_key? :ssh_username
       @server
     end
 

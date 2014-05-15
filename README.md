@@ -108,8 +108,8 @@ availability_zone: us-east-1d
 key_name: global-key
 cloud:
   provider: AWS
-  aws_access_key_id: <=% ENV[AWS_ACCESS_KEY] %>
-  aws_secret_access_key: <%= ENV[AWS_SECRET_ACCESS_KEY] %>
+  aws_access_key_id: <=% ENV['AWS_ACCESS_KEY'] %>
+  aws_secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY'] %>
   region: us-east-1
 
 ```
@@ -123,6 +123,19 @@ FSS will consider any values that look like "ENV[VAR_NAME]" to be
 environment variables, and will attempt to look up that environment
 variable. If FSS does not find that variable, an exception will be
 raised.
+
+#### AWS options
+
+- `vpc_id` _(String)_ - AWS VPC id where desired build has to be created
+
+- `subnet_id` _(String)_ - AWS VPC Subnet id where desired build has to be created
+
+- `vpn` _(Boolean)_ - Default is false. When set to true, uses private ip address to connect to the server
+
+- `key_name` _(String)_ - Use AWS keypair name
+
+- `private_key_path` _(String)_ - Location of private key on the local machine, You will have to provide this in order to ssh into the created machine
+
 
 ### Step 3: Add shell scripts that configure the server
 
