@@ -20,7 +20,6 @@ module FuckingShellScripts
         flavor_id: options.fetch(:size),
         key_name: options.fetch(:key_name),
         tags: { "Name" => name },
-        groups: options.fetch(:security_groups),
         ssh_ip_address: options.fetch(:ssh_ip_address),
       }
 
@@ -30,6 +29,12 @@ module FuckingShellScripts
         build_options[:private_key_path] = options.fetch(:private_key_path)
       elsif options.has_key? :key_name
         build_options[:key_name] = options.fetch(:key_name)
+      end
+
+      if options.has_key? :security_group_ids
+        build_options[:security_group_ids] = options.fetch(:security_group_ids)
+      else
+        build_options[:groups] = options.fetch(:security_groups)
       end
 
       [:vpc_id, :subnet_id].each do |key|
