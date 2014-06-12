@@ -23,6 +23,7 @@ module FuckingShellScripts
         groups: options.fetch(:security_groups),
         private_key_path: options.fetch(:private_key_path)
       )
+      @server.username = options.fetch(:username) if options.fetch(:username)
       print "Creating #{options.fetch(:size)} from #{options.fetch(:image)}"
 
       server.wait_for do
