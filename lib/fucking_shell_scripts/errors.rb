@@ -1,5 +1,5 @@
 module FuckingShellScripts
-  class Script
+  class Errors
     ScriptNotExecutable = Class.new(StandardError)
   end
 end

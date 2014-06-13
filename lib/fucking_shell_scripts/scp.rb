@@ -19,7 +19,7 @@ module FuckingShellScripts
 
     def check_executable_permissions
       @opts.fetch(:scripts).each do |file|
-        raise FuckingShellScripts::Script::ScriptNotExecutable , "The script #{file} is not executable." unless File.executable?(file)
+        raise FuckingShellScripts::Errors::ScriptNotExecutable , "The script #{file} is not executable." unless File.executable?(file)
       end
     end
     
