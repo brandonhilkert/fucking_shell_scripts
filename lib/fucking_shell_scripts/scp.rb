@@ -7,6 +7,7 @@ module FuckingShellScripts
     end
 
     def to_server
+      check_executable_permissions
       create_local_archive
       scp_files_to_server
       extract_remote_archive
@@ -16,6 +17,12 @@ module FuckingShellScripts
 
     private
 
+    def check_executable_permissions
+      @opts.fetch(:scripts).each do |file|
+        raise FuckingShellScripts::Errors::ScriptNotExecutable , "The script #{file} is not executable." unless File.executable?(file)
+      end
+    end
+    
     def create_local_archive
       includes = @opts.fetch(:files){ [] } + @opts.fetch(:scripts)
       `tar -czf #{FILENAME} #{includes.join(" ")}`
