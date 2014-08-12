@@ -9,7 +9,7 @@ Completely confused by Chef?  Blowing your brains out over Ansible?  Lost contro
 *   Wraps up the fog gem, so it can be used on any cloud service, including AWS, rackspace, etc.
 *   We've intentionally designed this tool to be insanely easy to use
 
-### Step 0: Install the gem
+### Step 0: Install the gem from source
 
 ```Shell
 gem build fucking_shell_scripts.gemspec
