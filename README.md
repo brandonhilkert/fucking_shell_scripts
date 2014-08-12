@@ -12,7 +12,9 @@ Completely confused by Chef?  Blowing your brains out over Ansible?  Lost contro
 ### Step 0: Install the gem
 
 ```Shell
-gem install fucking_shell_scripts
+gem build fucking_shell_scripts.gemspec
+gem install fucking_shell_scripts-0.99.gem
+
 ```
 
 
