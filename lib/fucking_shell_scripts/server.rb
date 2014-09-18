@@ -60,6 +60,7 @@ module FuckingShellScripts
       raise FuckingShellScripts::Server::MissingInstanceID , "Please specify the instance ID using the --instance-id option." if instance_id.nil?
       @server = connection.servers.get(instance_id)
       @server.private_key_path = options.fetch(:private_key_path)
+      @server.username = options.fetch(:username) if options[:username]
       @server
     end
 
