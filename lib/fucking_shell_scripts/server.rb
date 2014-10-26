@@ -15,33 +15,35 @@ module FuckingShellScripts
     end
 
     def build
-      @server = connection.servers.create(
-        image_id: options.fetch(:image),
-        flavor_id: options.fetch(:size),
-        key_name: options.fetch(:key_name),
-        tags: { "Name" => name },
-        groups: options.fetch(:security_groups),
+      create_server_options = {
+        image_id:         options.fetch(:image),
+        flavor_id:        options.fetch(:size),
+        key_name:         options.fetch(:key_name),
+        tags:             { "Name" => name },
+        groups:           options.fetch(:security_groups),
         private_key_path: options.fetch(:private_key_path)
-      )
+      }
+      create_server_options.merge!({subnet_id: options[:subnet]}) if options.has_key?(:subnet)
+      @server = connection.servers.create(create_server_options)
       @server.username = options.fetch(:username) if options[:username]
-      print "Creating #{options.fetch(:size)} from #{options.fetch(:image)}"
+      $stdout.print "Creating #{options.fetch(:size)} from #{options.fetch(:image)}"
 
       server.wait_for do
-        print "."
+        $stdout.print "."
         ready?
       end
 
-      puts "ready!"
-      puts ""
+      $stdout.puts "ready!"
+      $stdout.puts ""
 
-      print "Waiting for ssh access"
+      $stdout.print "Waiting for ssh access"
 
       server.wait_for do
-        print "."
+        $stdout.print "."
         sshable?
       end
 
-      puts "#{server.dns_name} ready!"
+      $stdout.puts "#{server.dns_name} ready!"
     end
 
     def configure
