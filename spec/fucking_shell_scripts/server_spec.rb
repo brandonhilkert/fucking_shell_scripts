@@ -13,7 +13,7 @@ module FuckingShellScripts
       let(:security_groups)   { 'some security_groups' }
       let(:private_key_path)  { 'some private_key_path' }
       let(:connection)        { double(Fog::Compute) }
-      let!(:time)              { Time.now }
+      let!(:time)             { Time.now }
 
       let(:options) do
         {
@@ -63,6 +63,25 @@ module FuckingShellScripts
           Server.new(connection, options).build
         end
       end
+
+      context 'when options include block_device_mapping' do
+        it 'creates a server with the passed in options including the block_device_mapping' do
+          block_device_mapping = {
+            block_device_mapping: [
+              {
+                'DeviceName'     => '/dev/sda1',
+                'Ebs.VolumeSize' => '20',
+                'Ebs.VolumeType' => 'gp2'
+              }
+            ]
+          }
+          options.merge!(block_device_mapping)
+          expect(servers).to receive(:create).with(hash_including(block_device_mapping)).and_return(server)
+
+          Server.new(connection, options).build
+        end
+      end
+
     end
   end
 end

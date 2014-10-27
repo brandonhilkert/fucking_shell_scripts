@@ -23,7 +23,10 @@ module FuckingShellScripts
         groups:           options.fetch(:security_groups),
         private_key_path: options.fetch(:private_key_path)
       }
+
       create_server_options.merge!({subnet_id: options[:subnet]}) if options.has_key?(:subnet)
+      create_server_options.merge!({block_device_mapping: options[:block_device_mapping]}) if options.has_key?(:block_device_mapping)
+
       @server = connection.servers.create(create_server_options)
       @server.username = options.fetch(:username) if options[:username]
       $stdout.print "Creating #{options.fetch(:size)} from #{options.fetch(:image)}"
