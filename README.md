@@ -4,6 +4,12 @@ The easiest, most common sense server configuration management tool...because yo
 
 Completely confused by Chef?  Blowing your brains out over Ansible?  Lost control of your Puppets?  Wanna just use **fucking shell scripts** to configure a server? Read on!
 
+# Activity
+
+While this project served a very specific purpose, ongoing development has
+stopped. Pull requests will be accepted, but it is currently not being actively
+developed.
+
 # Features
 
 *   Wraps up the fog gem, so it can be used on any cloud service, including AWS, rackspace, etc.
